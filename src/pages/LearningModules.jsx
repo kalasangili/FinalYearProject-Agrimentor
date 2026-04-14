@@ -24,7 +24,7 @@ function LearningModules() {
     { title: "Irrigation Techniques", image: "https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?q=80&w=800" },
     { title: "Crop Varieties", image: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800" },
     { title: "Harvesting Methods", image: "https://images.unsplash.com/photo-1530507629858-e4977d30e9e0?q=80&w=800" },
-    { title: "Organic Farming", image: "https://images.unsplash.com/photo-1615485242250-717da23a54d5?q=80&w=800" },
+    { title: "Organic Farming", image: "https://images.unsplash.com/photo-1471193945509-9ad0617afabf?q=80&w=800" },
   ];
 
   return (

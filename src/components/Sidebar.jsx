@@ -39,7 +39,7 @@ function Sidebar() {
           <Sprout className="text-white" size={24} />
         </div>
         <h1 className="text-xl font-serif font-bold text-[#3a4d2e] tracking-tight">
-          FarmFluent AI
+          AgriMentor
         </h1>
       </div>
 

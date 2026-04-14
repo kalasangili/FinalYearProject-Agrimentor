@@ -7,8 +7,11 @@ import {
   CloudSun, 
   Sprout, 
   TrendingUp,
-  ArrowRight
+  ArrowRight,
+  RefreshCw
 } from 'lucide-react';
+import { useWeather } from '../hooks/useWeather';
+import { useMarketPrices } from '../hooks/useMarketPrices';
 
 // Sub-component for the small info cards (Weather & Market)
 const InfoCard = ({ title, children, icon: Icon, footerLink, onClick }) => (
@@ -30,7 +33,17 @@ const InfoCard = ({ title, children, icon: Icon, footerLink, onClick }) => (
 );
 
 const Dashboard = () => {
-  const navigate = useNavigate(); // ✅ navigation hook
+  const navigate = useNavigate();
+  const {
+    data: weatherData,
+    loading: weatherLoading,
+    error: weatherError,
+    errorCode: weatherErrorCode,
+  } = useWeather('New Delhi', true);
+  const { data: marketData, loading: marketLoading, error: marketError } = useMarketPrices(['Wheat', 'Rice']);
+
+  const weather = weatherData?.current;
+  const topCrops = marketData?.commodities?.slice(0, 2) || [];
 
   return (
     <DashboardLayout>
@@ -50,7 +63,7 @@ const Dashboard = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-white/90 to-transparent flex flex-col justify-center px-10">
             <h1 className="text-3xl font-serif font-bold text-green-900 mb-1">
-              Welcome to FarmFluent AI
+              Welcome to AgriMentor 
             </h1>
             <p className="text-gray-600 text-base">
               Your intelligent partner in modern agriculture.
@@ -67,11 +80,34 @@ const Dashboard = () => {
               title="Today's Weather" 
               icon={CloudSun} 
               footerLink="View full forecast"
-              onClick={() => navigate("/weather")}  // ✅ navigation
+              onClick={() => navigate("/weather")}
             >
               <div className="flex flex-col">
-                <span className="text-3xl font-bold text-gray-900">28°C</span>
-                <span className="text-sm text-gray-500">Sunny with a light breeze</span>
+                {weatherLoading && !weather ? (
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <RefreshCw size={16} className="animate-spin" />
+                    <span className="text-sm">Loading...</span>
+                  </div>
+                ) : weatherError ? (
+                  <span
+                    className={`text-sm ${
+                      weatherErrorCode === 'MISSING_API_KEY' || weatherErrorCode === 'INVALID_API_KEY'
+                        ? 'text-amber-700'
+                        : 'text-red-500'
+                    }`}
+                  >
+                    {weatherErrorCode === 'MISSING_API_KEY' || weatherErrorCode === 'INVALID_API_KEY'
+                      ? 'Configure API key'
+                      : 'Unable to load'}
+                  </span>
+                ) : weather ? (
+                  <>
+                    <span className="text-3xl font-bold text-gray-900">{weather.temperature}°C</span>
+                    <span className="text-sm text-gray-500">{weather.description}</span>
+                  </>
+                ) : (
+                  <span className="text-sm text-gray-500">—</span>
+                )}
               </div>
             </InfoCard>
           </div>
@@ -82,17 +118,26 @@ const Dashboard = () => {
               title="Market Watch" 
               icon={TrendingUp} 
               footerLink="View all prices"
-              onClick={() => navigate("/market")}  // ✅ navigation
+              onClick={() => navigate("/market")}
             >
               <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Wheat</span>
-                  <span className="font-bold text-gray-800">$250.75</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Corn</span>
-                  <span className="font-bold text-gray-800">$180.50</span>
-                </div>
+                {marketLoading && !marketData ? (
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <RefreshCw size={16} className="animate-spin" />
+                    <span className="text-sm">Loading...</span>
+                  </div>
+                ) : marketError ? (
+                  <span className="text-sm text-red-500">Unable to load</span>
+                ) : topCrops.length > 0 ? (
+                  topCrops.map((item) => (
+                    <div key={item.symbol} className="flex justify-between text-sm">
+                      <span className="text-gray-600">{item.crop}</span>
+                      <span className="font-bold text-gray-800">{item.price}</span>
+                    </div>
+                  ))
+                ) : (
+                  <span className="text-sm text-gray-500">—</span>
+                )}
               </div>
             </InfoCard>
           </div>

@@ -6,7 +6,7 @@ import DiseaseDetection from "./pages/DeseaseDetection";
 // import MarketPrice from "./pages/MarketPrice";
 import MarketPrices from "./pages/MarketPrice";
 import RotationAdvice from "./pages/RotationAdvice";
-import ARScanner from "./pages/ArScanner";
+import ARScanner from "./pages/ARScanner";
 
 function App() {
   return (
