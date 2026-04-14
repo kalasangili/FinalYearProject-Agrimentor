@@ -26,6 +26,7 @@ import marketRoutes from './routes/market.js';
 import diseaseRoutes from './routes/disease.js';
 import rotationRoutes from './routes/rotation.js';
 import pestRoutes from './routes/pest.js';
+import learningRoutes from './routes/learning.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -43,6 +44,7 @@ app.use('/api/market', marketRoutes);
 app.use('/api/disease', diseaseRoutes);
 app.use('/api/rotation', rotationRoutes);
 app.use('/api/scan-pest', pestRoutes);
+app.use('/api/learning', learningRoutes);
 
 // 404
 app.use((_, res) => {
