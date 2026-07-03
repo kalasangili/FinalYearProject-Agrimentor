@@ -1,36 +1,58 @@
 # Dependencies
 node_modules/
+.pnpm-store/
 .pnp
 .pnp.js
 
-# Testing
-coverage/
-
-# Production
+# Build outputs
 build/
 dist/
+dev-dist/
+coverage/
+.vite/
+.cache/
 
-# Misc
-.DS_Store
+# Environment files
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
 
-# Logs
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs and runtime files
+*.log
+*.err
+*.out
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+backend*.log
+backend*.out
+backend*.err
+ml-service*.log
+ml-service*.out
+ml-service*.err
+vite-dev.log
+vite-dev.err
 
-# Python / Virtual Environment
+# Python virtual environments and caches
 venv/
 **/venv/
 __pycache__/
 *.py[cod]
 *$py.class
 .pytest_cache/
+.pytype/
 
-# Large Model Files (Recommended to store on HF/LFS)
+# Machine learning artifacts
 ml_service/model/*.pth
 ml_service/model/*.pkl
+ml_service/model/*.bin
+ml_service/model/*.onnx
